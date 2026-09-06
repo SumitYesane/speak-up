@@ -1,4 +1,4 @@
-import type { Session, SessionStatus } from "@/types/session";
+import type { PreSessionFeeling, PreSessionGoal, Session, SessionStatus } from "@/types/session";
 import type { Feedback } from "@/types/feedback";
 import { FriendlyError } from "@/lib/errors";
 import {
@@ -6,6 +6,7 @@ import {
   completeSession,
   createSession,
   getSession,
+  savePreSessionReflection,
 } from "@/services/sessionService";
 import { submitFeedback } from "@/services/feedbackService";
 
@@ -17,6 +18,7 @@ const USE_MOCK = env["VITE_USE_MOCK_API"] === "true";
 const MOCK_MEETING_URL = env["VITE_MOCK_MEETING_URL"] ?? "";
 
 const STORE_KEY = "speakup.sessions";
+const FEEDBACK_STORE_KEY = "speakup.feedback";
 
 type MockRecord = Session & { _readyAt: number };
 
@@ -34,14 +36,27 @@ function writeStore(store: Record<string, MockRecord>) {
   window.sessionStorage.setItem(STORE_KEY, JSON.stringify(store));
 }
 
+function readFeedbackStore(): Record<string, Feedback> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(window.sessionStorage.getItem(FEEDBACK_STORE_KEY) ?? "{}");
+  } catch {
+    return {};
+  }
+}
+
+function writeFeedbackStore(store: Record<string, Feedback>) {
+  if (typeof window === "undefined") return;
+  window.sessionStorage.setItem(FEEDBACK_STORE_KEY, JSON.stringify(store));
+}
+
 function delay(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
 /** Mock timeline: PREPARING (0-2.6s) -> SEARCHING (2.6-7s) -> READY */
 function projectStatus(record: MockRecord): SessionStatus {
-  if (record.status === "ACTIVE" || record.status === "COMPLETED")
-    return record.status;
+  if (record.status === "ACTIVE" || record.status === "COMPLETED") return record.status;
   const elapsed = Date.now() - record._readyAt;
   if (elapsed < 2600) return "PREPARING";
   if (elapsed < 7000) return "SEARCHING";
@@ -62,6 +77,8 @@ export const api = {
       started_at: null,
       completed_at: null,
       created_at: new Date().toISOString(),
+      pre_session_goal: null,
+      pre_session_feeling: null,
       _readyAt: Date.now(),
     };
     const store = readStore();
@@ -76,8 +93,7 @@ export const api = {
     await delay(180);
     const store = readStore();
     const record = store[sessionId];
-    if (!record)
-      throw new FriendlyError("Something went wrong while preparing your session.");
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
     record.status = projectStatus(record);
     store[sessionId] = record;
     writeStore(store);
@@ -90,10 +106,27 @@ export const api = {
     await delay(260);
     const store = readStore();
     const record = store[sessionId];
-    if (!record)
-      throw new FriendlyError("Something went wrong while preparing your session.");
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
     record.status = "ACTIVE";
     record.started_at = new Date().toISOString();
+    writeStore(store);
+    return stripped(record);
+  },
+
+  async savePreSessionReflection(
+    sessionId: string,
+    goal: PreSessionGoal,
+    feeling: PreSessionFeeling,
+  ): Promise<Session> {
+    if (!USE_MOCK) return savePreSessionReflection(sessionId, goal, feeling);
+
+    await delay(220);
+    const store = readStore();
+    const record = store[sessionId];
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
+    record.pre_session_goal = goal;
+    record.pre_session_feeling = feeling;
+    store[sessionId] = record;
     writeStore(store);
     return stripped(record);
   },
@@ -104,8 +137,7 @@ export const api = {
     await delay(200);
     const store = readStore();
     const record = store[sessionId];
-    if (!record)
-      throw new FriendlyError("Something went wrong while preparing your session.");
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
     record.status = "COMPLETED";
     record.completed_at = new Date().toISOString();
     writeStore(store);
@@ -115,6 +147,9 @@ export const api = {
   async sendFeedback(feedback: Feedback): Promise<void> {
     if (!USE_MOCK) return submitFeedback(feedback);
     await delay(600);
+    const store = readFeedbackStore();
+    store[feedback.session_id] = feedback;
+    writeFeedbackStore(store);
   },
 };
 

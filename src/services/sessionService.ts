@@ -1,6 +1,6 @@
 import { supabase, supabaseConfigured } from "@/lib/supabase";
 import { FriendlyError } from "@/lib/errors";
-import type { Session } from "@/types/session";
+import type { PreSessionFeeling, PreSessionGoal, Session } from "@/types/session";
 
 const meetingUrl = import.meta.env["VITE_MEETING_URL"] ?? "";
 
@@ -29,6 +29,23 @@ export async function getSession(sessionId: string): Promise<Session> {
   requireConfiguration();
   const { data, error } = await supabase.from("sessions").select("*").eq("id", sessionId).single();
   if (error || !data) handleError("Something went wrong while preparing your session.");
+  return data as Session;
+}
+
+export async function savePreSessionReflection(
+  sessionId: string,
+  goal: PreSessionGoal,
+  feeling: PreSessionFeeling,
+): Promise<Session> {
+  requireConfiguration();
+  const { data, error } = await supabase
+    .from("sessions")
+    .update({ pre_session_goal: goal, pre_session_feeling: feeling })
+    .eq("id", sessionId)
+    .eq("status", "READY")
+    .select()
+    .single();
+  if (error || !data) handleError("We couldn't save your reflection. Please try again.");
   return data as Session;
 }
 

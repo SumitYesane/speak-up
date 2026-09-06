@@ -1,18 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { z } from "zod";
 import { Check, Sparkles } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/Button";
 import { AppBackground } from "@/components/AppBackground";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-const searchSchema = z.object({
-  rating: z.coerce.number().optional(),
-});
-
 export const Route = createFileRoute("/thanks")({
-  validateSearch: searchSchema,
   head: () => ({
     meta: [
       { title: "Thanks for practicing — SpeakUp" },
@@ -30,12 +24,6 @@ export const Route = createFileRoute("/thanks")({
   }),
   component: ThanksPage,
 });
-
-const STATS = [
-  { value: "10", label: "minutes spoken" },
-  { value: "1", label: "real conversation" },
-  { value: "0", label: "scripts needed" },
-];
 
 function ThanksPage() {
   const reduced = useReducedMotion();
@@ -74,53 +62,31 @@ function ThanksPage() {
             />
           </motion.div>
 
-          <motion.h1
-            {...rise(0.12)}
-            className="mt-9 text-display text-foreground"
-          >
-            You did the <span className="text-gradient">hard part</span>.
+          <motion.h1 {...rise(0.12)} className="mt-9 text-display text-foreground">
+            You showed up. That's what matters.
           </motion.h1>
 
           <motion.p
             {...rise(0.2)}
             className="mx-auto mt-4 max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground"
           >
-            Most people never start. You just spoke with a stranger for ten
-            minutes — and that gets easier every single time.
+            The next conversation might feel a little easier.
           </motion.p>
 
           <motion.div
             {...rise(0.3)}
-            className="card-elevated gradient-top mt-10 grid grid-cols-3 divide-x divide-border p-6"
-          >
-            {STATS.map((stat) => (
-              <div key={stat.label} className="px-2">
-                <p className="tabular text-2xl text-foreground">{stat.value}</p>
-                <p className="mt-1 text-xs leading-tight text-muted-foreground">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            {...rise(0.4)}
             className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
           >
             <Button asChild size="lg" className="w-full sm:w-auto">
               <Link to="/practice">
                 <Sparkles className="size-4" aria-hidden />
-                Practice again
+                Talk Again
               </Link>
             </Button>
             <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
-              <Link to="/">Back to SpeakUp</Link>
+              <Link to="/">Done for Now</Link>
             </Button>
           </motion.div>
-
-          <motion.p {...rise(0.5)} className="mt-6 text-sm text-muted-foreground">
-            Momentum beats preparation. Come back tomorrow.
-          </motion.p>
         </div>
       </main>
     </div>
