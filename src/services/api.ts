@@ -1,4 +1,4 @@
-import type { Session, SessionStatus } from "@/types/session";
+import type { PreSessionFeeling, PreSessionGoal, Session, SessionStatus } from "@/types/session";
 import type { Feedback } from "@/types/feedback";
 import { FriendlyError } from "@/lib/errors";
 import {
@@ -6,6 +6,7 @@ import {
   completeSession,
   createSession,
   getSession,
+  savePreSessionReflection,
 } from "@/services/sessionService";
 import { submitFeedback } from "@/services/feedbackService";
 
@@ -40,8 +41,7 @@ function delay(ms: number) {
 
 /** Mock timeline: PREPARING (0-2.6s) -> SEARCHING (2.6-7s) -> READY */
 function projectStatus(record: MockRecord): SessionStatus {
-  if (record.status === "ACTIVE" || record.status === "COMPLETED")
-    return record.status;
+  if (record.status === "ACTIVE" || record.status === "COMPLETED") return record.status;
   const elapsed = Date.now() - record._readyAt;
   if (elapsed < 2600) return "PREPARING";
   if (elapsed < 7000) return "SEARCHING";
@@ -62,6 +62,8 @@ export const api = {
       started_at: null,
       completed_at: null,
       created_at: new Date().toISOString(),
+      pre_session_goal: null,
+      pre_session_feeling: null,
       _readyAt: Date.now(),
     };
     const store = readStore();
@@ -76,8 +78,7 @@ export const api = {
     await delay(180);
     const store = readStore();
     const record = store[sessionId];
-    if (!record)
-      throw new FriendlyError("Something went wrong while preparing your session.");
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
     record.status = projectStatus(record);
     store[sessionId] = record;
     writeStore(store);
@@ -90,10 +91,27 @@ export const api = {
     await delay(260);
     const store = readStore();
     const record = store[sessionId];
-    if (!record)
-      throw new FriendlyError("Something went wrong while preparing your session.");
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
     record.status = "ACTIVE";
     record.started_at = new Date().toISOString();
+    writeStore(store);
+    return stripped(record);
+  },
+
+  async savePreSessionReflection(
+    sessionId: string,
+    goal: PreSessionGoal,
+    feeling: PreSessionFeeling,
+  ): Promise<Session> {
+    if (!USE_MOCK) return savePreSessionReflection(sessionId, goal, feeling);
+
+    await delay(220);
+    const store = readStore();
+    const record = store[sessionId];
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
+    record.pre_session_goal = goal;
+    record.pre_session_feeling = feeling;
+    store[sessionId] = record;
     writeStore(store);
     return stripped(record);
   },
@@ -104,8 +122,7 @@ export const api = {
     await delay(200);
     const store = readStore();
     const record = store[sessionId];
-    if (!record)
-      throw new FriendlyError("Something went wrong while preparing your session.");
+    if (!record) throw new FriendlyError("Something went wrong while preparing your session.");
     record.status = "COMPLETED";
     record.completed_at = new Date().toISOString();
     writeStore(store);
