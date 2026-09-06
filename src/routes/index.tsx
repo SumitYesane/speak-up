@@ -114,7 +114,7 @@ function Hero() {
                   <span className="bg-brand inline-flex size-6 items-center justify-center rounded-full text-primary-foreground">
                     <Sparkles className="size-3.5" aria-hidden />
                   </span>
-                  Real people. Zero judgment.
+                  A simple place to practice speaking.
                 </span>
               </Reveal>
 
@@ -127,8 +127,7 @@ function Hero() {
 
               <Reveal delay={0.16}>
                 <p className="mt-5 max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground sm:mt-6">
-                  Ten minutes. One real conversation with someone who wants to
-                  practice too. No preparation, no tests, no one grading you.
+                  You don't need another lesson. You need a chance to talk. Spend 10 minutes having a real conversation, without worrying about getting every word right.
                 </p>
               </Reveal>
 
@@ -149,7 +148,108 @@ function Hero() {
                 </div>
               </Reveal>
 
-              <Reveal delay={0.32}>
+<Reveal delay={0.32}>
+  <div className="mt-7 w-full max-w-2xl">
+    <div className="group relative overflow-hidden rounded-2xl border border-border/50 bg-background/60 p-1 shadow-[0_8px_30px_rgba(0,0,0,0.04)] backdrop-blur-xl">
+      
+      {/* subtle background glow */}
+      <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl transition-all duration-500 group-hover:bg-primary/15" />
+
+      <div className="relative flex flex-col divide-y divide-border/40 sm:flex-row sm:divide-x sm:divide-y-0">
+        
+        {/* 10 minutes */}
+        <div className="flex flex-1 items-center gap-3 px-4 py-4 sm:px-5">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-5 w-5"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" />
+            </svg>
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold tracking-tight text-foreground">
+              10 minutes
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              One real conversation
+            </p>
+          </div>
+        </div>
+
+        {/* No preparation */}
+        <div className="flex flex-1 items-center gap-3 px-4 py-4 sm:px-5">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-foreground/[0.04] text-foreground/70">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-5 w-5"
+            >
+              <path d="M12 3v18" />
+              <path d="M3 12h18" />
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+          </div>
+
+          <div>
+            <p className="text-sm font-semibold tracking-tight text-foreground">
+              No preparation
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              Just show up
+            </p>
+          </div>
+        </div>
+
+        {/* Free beta */}
+        <div className="flex flex-1 items-center gap-3 px-4 py-4 sm:px-5">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-5 w-5"
+            >
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+          </div>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold tracking-tight text-foreground">
+                Free beta
+              </p>
+
+              <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-600">
+                Now
+              </span>
+            </div>
+
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              Try it. Tell us what you think.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    {/* tiny supporting line */}
+    <p className="mt-3 text-center text-[11px] text-muted-foreground/70">
+      No tests · No awkward introductions · Just talk
+    </p>
+  </div>
+</Reveal>
+
+              {/* <Reveal delay={0.32}>
                 <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
                   <AvatarStack />
                   <span className="flex items-center gap-2">
@@ -157,12 +257,12 @@ function Hero() {
                       <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-70" />
                       <span className="relative inline-flex size-2 rounded-full bg-success" />
                     </span>
-                    <span className="tabular">312</span> people talking right now
+                    <span className="tabular"></span>people talking right now
                   </span>
                 </div>
-              </Reveal>
+              </Reveal> */}
 
-              <Reveal delay={0.4}>
+              {/* <Reveal delay={0.4}>
                 <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4">
                   {[
                     [Timer, "10 min", "per session"],
@@ -186,7 +286,7 @@ function Hero() {
                     );
                   })}
                 </dl>
-              </Reveal>
+              </Reveal> */}
             </div>
 
             <Reveal delay={0.2} y={16}>
@@ -323,7 +423,7 @@ function HeroVisual() {
         className="glass absolute right-0 bottom-10 rounded-full px-3.5 py-1.5 text-xs text-foreground shadow-lift animate-float-slow"
         style={{ animationDelay: "-4s" }}
       >
-        Someone ready to talk
+        A real conversation
       </div>
     </div>
   );
@@ -332,13 +432,14 @@ function HeroVisual() {
 /* --------------------------------------------------------------- marquee */
 
 const MARQUEE = [
-  "no grammar drills",
-  "no vocabulary lists",
-  "no awkward classrooms",
-  "no scores",
-  "no homework",
-  "no strangers judging you",
+  "NO GRAMMAR DRILLS",
+  "NO VOCABULARY LISTS",
+  "NO TESTS",
+  "NO SCORES",
+  "NO HOMEWORK",
+  "JUST REAL CONVERSATION",
 ];
+
 
 function Marquee() {
   return (
@@ -358,7 +459,7 @@ function Marquee() {
         ))}
       </div>
       <span className="sr-only">
-        No grammar drills, no vocabulary lists, no scores, no judgment.
+        Just real conversation, no grammar drills, no vocabulary lists, no scores, no judgment.
       </span>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-background to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-background to-transparent" />
@@ -418,23 +519,26 @@ function Problem() {
 const STEPS = [
   {
     n: "01",
-    title: "Click Practice Now",
-    detail: "No account, no signup, no questionnaire. One tap and you're in.",
+    title: "Tell us your name",
+    detail: "Just a quick hello before you start.",
   },
   {
     n: "02",
-    title: "Meet someone ready to talk",
-    detail: "A real person on the same page as you — not a tutor, not an AI.",
+    title: "What do you want to work on?",
+    detail:
+      "More confidence, less overthinking, or simply getting comfortable speaking.",
   },
   {
     n: "03",
-    title: "Use a prompt when you need one",
-    detail: "One gentle idea at a time, always optional, never forced.",
+    title: "Start talking",
+    detail:
+      "Have a real conversation. No script, no pressure, no need to get every word right.",
   },
   {
     n: "04",
-    title: "Talk for ten minutes",
-    detail: "Then it ends on its own. No pressure to keep going.",
+    title: "Take a moment to reflect",
+    detail:
+      "Think about how it felt. What was easy, what wasn't, and how you'd like to improve.",
   },
 ];
 
@@ -451,8 +555,8 @@ function HowItWorks() {
           <p className="text-eyebrow text-primary">How it works</p>
         </Reveal>
         <Reveal delay={0.06}>
-          <h2 className="text-display mt-4 max-w-xl text-foreground">
-            Four steps. Zero friction.
+          <h2 className="text-display mt-4 whitespace-nowrap text-foreground">
+            It's simpler than you think.
           </h2>
         </Reveal>
 
@@ -502,8 +606,8 @@ function HowItWorks() {
 /* ------------------------------------------------------------------ demo */
 
 const DEMO_STATES = [
-  { key: "searching", caption: "Finding your conversation…" },
-  { key: "found", caption: "Someone's ready." },
+  { key: "searching", caption: "Getting things ready…" },
+  { key: "found", caption: "You're ready to talk." },
   { key: "session", caption: "Let's talk." },
 ] as const;
 
@@ -527,9 +631,9 @@ function Demo() {
       <Aurora intensity="soft" />
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32">
         <Reveal>
-          <h2 className="text-display max-w-2xl text-foreground">
+          <h2 className="text-display whitespace-nowrap text-foreground">
             It feels less like practice.
-            <span className="text-gradient block">More like a conversation.</span>
+            <span className="text-gradient block">It should feel like a conversation.</span>
           </h2>
         </Reveal>
 
@@ -613,21 +717,21 @@ function Demo() {
 const QUOTES = [
   {
     quote:
-      "Ten minutes was short enough that I couldn't talk myself out of it. I've done it every day since.",
-    who: "Marta",
-    where: "Warsaw",
+      "You don't need to feel confident before you start. Sometimes you just need ten minutes to prove to yourself that you can.",
+    who: "The idea behind SpeakUp",
+    where: "Built from real experience",
   },
   {
     quote:
-      "The prompts saved me twice, then I forgot they were there. That's when I knew it was working.",
-    who: "Kenji",
-    where: "Osaka",
+      "The goal isn't to speak perfect English. It's to stop thinking about every word and just have the conversation.",
+    who: "What we're trying to change",
+    where: "One conversation at a time",
   },
   {
     quote:
-      "No profile, no score, no one watching. It's the first time speaking practice hasn't felt like a test.",
-    who: "Aline",
-    where: "São Paulo",
+      "Ten minutes won't change everything. But it might make the next conversation feel a little easier.",
+    who: "The SpeakUp approach",
+    where: "Keep showing up",
   },
 ];
 
@@ -637,7 +741,7 @@ function Proof() {
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32">
         <Reveal>
           <h2 className="text-display max-w-xl text-foreground">
-            Ten minutes changes more than you'd expect.
+            Ten minutes can be enough to start.
           </h2>
         </Reveal>
 
@@ -682,14 +786,14 @@ function FinalCta() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mx-auto mt-5 max-w-md text-[1.0625rem] leading-relaxed text-muted-foreground">
-            No preparation. No judgment. Just ten minutes of conversation.
+            No preparation. No test. Just 10 minutes to have a real conversation.
           </p>
         </Reveal>
         <Reveal delay={0.18}>
           <div className="mt-10">
             <Button asChild size="lg" className="group">
               <Link to="/practice">
-                Practice Now
+                Start a 10-minute conversation
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-1"
                   aria-hidden
@@ -712,7 +816,7 @@ function Footer() {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-9">
         <Logo />
         <p className="text-sm text-muted-foreground">
-          10 minutes. One conversation. No judgment.
+          10 minutes. One real conversation.
         </p>
       </div>
     </footer>

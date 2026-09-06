@@ -18,6 +18,7 @@ const USE_MOCK = env["VITE_USE_MOCK_API"] === "true";
 const MOCK_MEETING_URL = env["VITE_MOCK_MEETING_URL"] ?? "";
 
 const STORE_KEY = "speakup.sessions";
+const FEEDBACK_STORE_KEY = "speakup.feedback";
 
 type MockRecord = Session & { _readyAt: number };
 
@@ -33,6 +34,20 @@ function readStore(): Record<string, MockRecord> {
 function writeStore(store: Record<string, MockRecord>) {
   if (typeof window === "undefined") return;
   window.sessionStorage.setItem(STORE_KEY, JSON.stringify(store));
+}
+
+function readFeedbackStore(): Record<string, Feedback> {
+  if (typeof window === "undefined") return {};
+  try {
+    return JSON.parse(window.sessionStorage.getItem(FEEDBACK_STORE_KEY) ?? "{}");
+  } catch {
+    return {};
+  }
+}
+
+function writeFeedbackStore(store: Record<string, Feedback>) {
+  if (typeof window === "undefined") return;
+  window.sessionStorage.setItem(FEEDBACK_STORE_KEY, JSON.stringify(store));
 }
 
 function delay(ms: number) {
@@ -132,6 +147,9 @@ export const api = {
   async sendFeedback(feedback: Feedback): Promise<void> {
     if (!USE_MOCK) return submitFeedback(feedback);
     await delay(600);
+    const store = readFeedbackStore();
+    store[feedback.session_id] = feedback;
+    writeFeedbackStore(store);
   },
 };
 

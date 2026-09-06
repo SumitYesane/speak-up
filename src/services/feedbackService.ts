@@ -2,35 +2,41 @@ import { supabase, supabaseConfigured } from "@/lib/supabase";
 import { FriendlyError } from "@/lib/errors";
 import type { Feedback } from "@/types/feedback";
 
-const COMFORT_LEVELS = [
+const FEELINGS = [
+  "quite_nervous",
+  "a_little_nervous",
+  "somewhere_in_between",
+  "pretty_comfortable",
   "very_comfortable",
-  "comfortable",
-  "neutral",
-  "uncomfortable",
-  "very_uncomfortable",
 ] as const;
-const REPEAT_INTEREST = ["yes", "maybe", "no"] as const;
+const CHALLENGES = [
+  "finding_right_words",
+  "starting_a_thought",
+  "keeping_conversation_going",
+  "not_overthinking",
+  "speaking_confidently",
+  "nothing_in_particular",
+] as const;
+const REPEAT_INTENTIONS = ["yes", "maybe", "not_now"] as const;
 
 export async function submitFeedback(feedback: Feedback): Promise<void> {
   if (
     !supabaseConfigured ||
     !feedback.session_id ||
-    !Number.isInteger(feedback.rating) ||
-    feedback.rating < 1 ||
-    feedback.rating > 5 ||
-    !COMFORT_LEVELS.includes(feedback.comfort_level) ||
-    !REPEAT_INTEREST.includes(feedback.repeat_interest) ||
-    (feedback.comment?.length ?? 0) > 1000
+    !FEELINGS.includes(feedback.post_session_feeling) ||
+    !CHALLENGES.includes(feedback.post_session_challenge) ||
+    !REPEAT_INTENTIONS.includes(feedback.repeat_intention) ||
+    (feedback.optional_feedback?.length ?? 0) > 400
   ) {
     throw new FriendlyError("We couldn't save your feedback. Please try again.");
   }
 
   const { error } = await supabase.from("feedback").insert({
     session_id: feedback.session_id,
-    rating: feedback.rating,
-    comfort_level: feedback.comfort_level,
-    repeat_interest: feedback.repeat_interest,
-    comment: feedback.comment,
+    post_session_feeling: feedback.post_session_feeling,
+    post_session_challenge: feedback.post_session_challenge,
+    repeat_intention: feedback.repeat_intention,
+    optional_feedback: feedback.optional_feedback,
   });
   if (error) throw new FriendlyError("We couldn't save your feedback. Please try again.");
 }
