@@ -131,8 +131,11 @@ export const api = {
     return stripped(record);
   },
 
-  async completeSession(sessionId: string): Promise<Session> {
-    if (!USE_MOCK) return completeSession(sessionId);
+  async completeSession(
+    sessionId: string,
+    completionReason: "timer" | "manual" | "unknown" = "unknown",
+  ): Promise<Session> {
+    if (!USE_MOCK) return completeSession(sessionId, completionReason);
 
     await delay(200);
     const store = readStore();
