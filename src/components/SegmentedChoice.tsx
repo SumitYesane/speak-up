@@ -46,11 +46,11 @@ export function SegmentedChoice<T extends string>({
               aria-checked={selected}
               onClick={() => onChange(option.value)}
               className={cn(
-                "relative min-h-12 rounded-[12px] border px-3 py-3 text-[0.8125rem] leading-tight transition-all duration-200 active:scale-[0.97] motion-reduce:active:scale-100",
+                "relative min-h-12 rounded-[14px] border px-3 py-3 text-[0.8125rem] leading-tight transition-all duration-200 active:scale-[0.97] motion-reduce:active:scale-100",
                 loneOption && "col-span-2",
                 selected
-                  ? "border-transparent bg-brand font-medium text-primary-foreground shadow-cta"
-                  : "border-border bg-surface/70 text-muted-foreground backdrop-blur-sm hover:-translate-y-0.5 hover:border-primary/30 hover:text-foreground hover:shadow-lift motion-reduce:hover:translate-y-0",
+                  ? "border-transparent bg-[linear-gradient(135deg,rgba(92,72,149,0.98),rgba(123,104,193,0.94))] font-medium text-primary-foreground shadow-[0_12px_28px_-16px_rgba(92,72,149,0.5)]"
+                  : "border-border bg-surface/70 text-muted-foreground backdrop-blur-sm hover:-translate-y-0.5 hover:border-primary/25 hover:text-foreground hover:shadow-[0_10px_18px_-14px_rgba(82,70,120,0.28)] motion-reduce:hover:translate-y-0",
               )}
             >
               {option.label}

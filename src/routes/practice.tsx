@@ -333,10 +333,10 @@ function PreSessionReflection({
 
       <div className="mt-5 border-t border-border pt-7 text-center">
         <p className="text-sm text-muted-foreground">
-          Nothing to prepare. We'll just talk for 10 minutes.
+          Nothing to prepare. We’ll just talk for 10 minutes.
         </p>
         <Button type="submit" size="lg" className="mt-5 w-full" disabled={!canContinue}>
-          I'm Ready
+          I’m ready
           <ArrowRight className="size-4" aria-hidden />
         </Button>
       </div>

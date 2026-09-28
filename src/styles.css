@@ -119,27 +119,27 @@
 :root {
   --radius: 0.625rem;
 
-  --background: oklch(0.972 0.005 85);
-  --foreground: oklch(0.216 0.006 286);
-  --card: oklch(0.988 0.003 85);
-  --card-foreground: oklch(0.216 0.006 286);
-  --popover: oklch(0.988 0.003 85);
-  --popover-foreground: oklch(0.216 0.006 286);
+  --background: oklch(0.977 0.008 88);
+  --foreground: oklch(0.23 0.008 286);
+  --card: oklch(0.99 0.004 88);
+  --card-foreground: oklch(0.23 0.008 286);
+  --popover: oklch(0.99 0.004 88);
+  --popover-foreground: oklch(0.23 0.008 286);
 
   --primary: oklch(0.532 0.187 278.5);
   --primary-foreground: oklch(0.99 0.002 85);
   --primary-deep: oklch(0.451 0.176 278.5);
 
-  --secondary: oklch(0.945 0.005 85);
-  --secondary-foreground: oklch(0.216 0.006 286);
+  --secondary: oklch(0.949 0.006 87);
+  --secondary-foreground: oklch(0.23 0.008 286);
 
-  --muted: oklch(0.945 0.005 85);
-  --muted-foreground: oklch(0.518 0.009 286);
+  --muted: oklch(0.944 0.006 87);
+  --muted-foreground: oklch(0.494 0.011 286);
 
-  --accent: oklch(0.962 0.019 285);
+  --accent: oklch(0.965 0.02 285);
   --accent-foreground: oklch(0.451 0.176 278.5);
 
-  --surface: oklch(0.988 0.003 85);
+  --surface: oklch(0.987 0.004 86);
   --surface-raised: oklch(1 0 0);
 
   --success: oklch(0.554 0.077 156);
@@ -148,9 +148,9 @@
   --destructive: oklch(0.55 0.16 27);
   --destructive-foreground: oklch(0.99 0.002 85);
 
-  --border: oklch(0.912 0.005 85);
-  --border-strong: oklch(0.86 0.006 85);
-  --input: oklch(0.9 0.005 85);
+  --border: oklch(0.918 0.006 85);
+  --border-strong: oklch(0.866 0.008 85);
+  --input: oklch(0.908 0.006 85);
   --ring: oklch(0.532 0.187 278.5);
 
   --violet: oklch(0.62 0.21 305);
@@ -189,10 +189,14 @@
   }
 
   body {
-    background-color: var(--color-background);
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top, rgba(176, 160, 255, 0.15), transparent 28%),
+      linear-gradient(180deg, var(--color-background) 0%, color-mix(in oklab, var(--color-background) 96%, white) 100%);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "cv11", "ss01";
+    letter-spacing: -0.01em;
   }
 
   ::selection {
@@ -260,9 +264,10 @@
 }
 
 @utility glass {
-  background: color-mix(in oklab, var(--surface-raised) 72%, transparent);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(248, 245, 240, 0.82));
   backdrop-filter: blur(18px) saturate(160%);
   border: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
+  box-shadow: 0 10px 30px -22px rgba(76, 58, 117, 0.24);
 }
 
 @utility ring-glow {
@@ -298,13 +303,13 @@
 /* Elevated content card used across the practice → feedback flow. */
 @utility card-elevated {
   position: relative;
-  border-radius: 24px;
-  background: color-mix(in oklab, var(--surface-raised) 88%, transparent);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(251, 247, 241, 0.88));
   backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid color-mix(in oklab, var(--foreground) 7%, transparent);
+  border: 1px solid rgba(107, 90, 142, 0.08);
   box-shadow:
-    0 1px 2px oklch(0.216 0.006 286 / 0.04),
-    0 20px 60px -24px oklch(0.35 0.14 279 / 0.22);
+    0 1px 2px rgba(35, 23, 52, 0.04),
+    0 20px 60px -30px rgba(91, 71, 134, 0.28);
 }
 
 @utility gradient-top {

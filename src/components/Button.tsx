@@ -10,13 +10,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-brand text-primary-foreground shadow-cta hover:-translate-y-0.5 hover:shadow-float motion-reduce:hover:translate-y-0 before:absolute before:inset-0 before:-translate-x-full before:bg-[linear-gradient(110deg,transparent,color-mix(in_oklab,white_45%,transparent),transparent)] before:transition-transform before:duration-700 hover:before:translate-x-full disabled:bg-none disabled:bg-muted disabled:text-muted-foreground/70 disabled:shadow-none disabled:before:hidden",
+          "bg-brand text-primary-foreground shadow-[0_10px_28px_-14px_rgba(89,67,149,0.52)] hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-18px_rgba(89,67,149,0.52)] motion-reduce:hover:translate-y-0 before:absolute before:inset-0 before:-translate-x-full before:bg-[linear-gradient(110deg,transparent,color-mix(in_oklab,white_45%,transparent),transparent)] before:transition-transform before:duration-700 hover:before:translate-x-full disabled:bg-none disabled:bg-muted disabled:text-muted-foreground/70 disabled:shadow-none disabled:before:hidden",
         secondary:
-          "glass text-foreground hover:-translate-y-0.5 hover:ring-glow motion-reduce:hover:translate-y-0 disabled:opacity-50",
+          "glass text-foreground hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-[0_12px_30px_-24px_rgba(76,58,117,0.34)] motion-reduce:hover:translate-y-0 disabled:opacity-50",
         ghost:
-          "text-muted-foreground hover:text-foreground hover:bg-muted disabled:opacity-50",
+          "text-muted-foreground hover:text-foreground hover:bg-muted/80 disabled:opacity-50",
         quiet:
-          "bg-accent text-accent-foreground hover:bg-accent/70 border border-transparent disabled:opacity-50",
+          "bg-accent text-accent-foreground hover:bg-accent/80 border border-transparent disabled:opacity-50",
       },
 
       size: {

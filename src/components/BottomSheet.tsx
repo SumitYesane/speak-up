@@ -48,7 +48,7 @@ export function BottomSheet({
           aria-expanded={open}
           className="flex min-h-[56px] w-full items-center justify-between px-5 py-4 text-left"
         >
-          <span className="text-[0.9375rem] text-foreground">{triggerLabel}</span>
+          <span className="text-[0.9375rem] font-medium text-foreground">{triggerLabel}</span>
           <motion.span animate={{ rotate: open ? 180 : 0 }} className="text-muted-foreground">
             <ChevronUp className="size-4" aria-hidden />
           </motion.span>
