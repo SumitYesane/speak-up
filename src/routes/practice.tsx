@@ -10,6 +10,7 @@ import { ErrorState } from "@/components/ErrorState";
 import { PageTransition } from "@/components/PageTransition";
 import { SegmentedChoice } from "@/components/SegmentedChoice";
 import { api } from "@/services/api";
+import { APP_EVENTS, logger } from "@/services/logger";
 import type { PreSessionFeeling, PreSessionGoal, Session } from "@/types/session";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -68,17 +69,30 @@ function Practice() {
   useEffect(() => stopPolling, []);
 
   useEffect(() => {
+    logger.info(APP_EVENTS.PRACTICE_PAGE_OPENED, { source: "ui" });
     const storedId = window.sessionStorage.getItem(SESSION_KEY);
     if (!storedId) return;
     void api
       .getSession(storedId)
       .then((stored) => {
+        logger.warn(APP_EVENTS.SESSION_RESTORED, {
+          source: "ui",
+          sessionId: stored.id,
+          metadata: { status: stored.status },
+        });
         setSession(stored);
         setName(stored.participant_name);
         if (stored.status === "READY") {
           const reflectionPending =
             window.sessionStorage.getItem(REFLECTION_PENDING_KEY) === stored.id;
-          setStage(reflectionPending ? "reflection" : "ready");
+          const nextStage = reflectionPending ? "reflection" : "ready";
+          setStage(nextStage);
+          if (nextStage === "ready") {
+            logger.info(APP_EVENTS.SESSION_READY_DISPLAYED, {
+              source: "ui",
+              sessionId: stored.id,
+            });
+          }
         }
         if (stored.status === "ACTIVE") {
           navigate({
@@ -93,10 +107,18 @@ function Practice() {
           });
         }
       })
-      .catch(() => window.sessionStorage.removeItem(SESSION_KEY));
+      .catch((error: unknown) => {
+        logger.error(APP_EVENTS.SESSION_RESTORE_FAILED, {
+          source: "ui",
+          sessionId: storedId,
+          error,
+        });
+        window.sessionStorage.removeItem(SESSION_KEY);
+      });
   }, [navigate]);
 
   const begin = useCallback(() => {
+    logger.info(APP_EVENTS.NAME_SUBMISSION_STARTED, { source: "ui" });
     window.sessionStorage.setItem(REFLECTION_PENDING_KEY, "pending");
     setStage("reflection");
 
@@ -135,6 +157,8 @@ function Practice() {
           if (next.status === "READY") {
             stopPolling();
             setStage("ready");
+            logger.info(APP_EVENTS.SESSION_READY, { source: "ui", sessionId: next.id });
+            logger.info(APP_EVENTS.SESSION_READY_DISPLAYED, { source: "ui", sessionId: next.id });
           }
         } catch {
           stopPolling();
@@ -148,12 +172,23 @@ function Practice() {
 
   const join = async () => {
     if (!session || joining) return;
+    logger.info(APP_EVENTS.SESSION_JOIN_CLICKED, { source: "ui", sessionId: session.id });
     setJoining(true);
     try {
       const activated = await api.startSession(session.id);
       setSession(activated);
       if (activated.meeting_url) {
-        window.open(activated.meeting_url, "_blank", "noopener,noreferrer");
+        logger.info(APP_EVENTS.MEETING_OPEN_ATTEMPTED, {
+          source: "ui",
+          sessionId: session.id,
+        });
+        const meetingWindow = window.open(activated.meeting_url, "_blank", "noopener,noreferrer");
+        logger.event(meetingWindow ? APP_EVENTS.MEETING_OPENED : APP_EVENTS.MEETING_OPEN_FAILED, {
+          source: "ui",
+          severity: meetingWindow ? "info" : "error",
+          sessionId: session.id,
+          metadata: { popup_blocked: !meetingWindow },
+        });
       }
       navigate({ to: "/session", search: { id: session.id, name: session.participant_name } });
     } catch {
@@ -185,7 +220,14 @@ function Practice() {
           <AnimatePresence mode="wait">
             {stage === "name" && (
               <PageTransition key="name">
-                <NameEntry name={name} setName={setName} onSubmit={begin} />
+                <NameEntry
+                  name={name}
+                  setName={setName}
+                  onSubmit={begin}
+                  onInvalid={() =>
+                    logger.warn(APP_EVENTS.NAME_SUBMISSION_VALIDATION_FAILED, { source: "ui" })
+                  }
+                />
               </PageTransition>
             )}
 
@@ -211,6 +253,7 @@ function Practice() {
               <PageTransition key="error">
                 <ErrorState
                   onRetry={() => {
+                    logger.warn(APP_EVENTS.USER_RETRY_STARTED, { source: "ui" });
                     setSession(null);
                     setStage("name");
                   }}
@@ -305,10 +348,12 @@ function NameEntry({
   name,
   setName,
   onSubmit,
+  onInvalid,
 }: {
   name: string;
   setName: (value: string) => void;
   onSubmit: () => void;
+  onInvalid: () => void;
 }) {
   const valid = name.trim().length > 0;
 
@@ -317,6 +362,7 @@ function NameEntry({
       onSubmit={(e) => {
         e.preventDefault();
         if (valid) onSubmit();
+        else onInvalid();
       }}
     >
       <h1 className="text-[2.25rem] leading-tight tracking-[-0.03em] text-foreground">

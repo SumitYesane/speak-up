@@ -7,6 +7,7 @@ import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { Aurora, GridField } from "@/components/Aurora";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { APP_EVENTS, logger } from "@/services/logger";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -88,7 +89,12 @@ function Header() {
             </a>
           ))}
           <Button asChild size="sm">
-            <Link to="/practice">Practice Now</Link>
+            <Link
+              to="/practice"
+              onClick={() => logger.info(APP_EVENTS.PRACTICE_BUTTON_CLICKED, { source: "ui" })}
+            >
+              Practice Now
+            </Link>
           </Button>
         </nav>
       </div>
@@ -134,7 +140,10 @@ function Hero() {
               <Reveal delay={0.24}>
                 <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-8">
                   <Button asChild size="lg" className="group">
-                    <Link to="/practice">
+                    <Link
+                      to="/practice"
+                      onClick={() => logger.info(APP_EVENTS.PRACTICE_BUTTON_CLICKED, { source: "ui" })}
+                    >
                       Practice Now
                       <ArrowRight
                         className="size-4 transition-transform duration-300 group-hover:translate-x-1"
@@ -792,7 +801,10 @@ function FinalCta() {
         <Reveal delay={0.18}>
           <div className="mt-10">
             <Button asChild size="lg" className="group">
-              <Link to="/practice">
+              <Link
+                to="/practice"
+                onClick={() => logger.info(APP_EVENTS.PRACTICE_BUTTON_CLICKED, { source: "ui" })}
+              >
                 Start a 10-minute conversation
                 <ArrowRight
                   className="size-4 transition-transform duration-300 group-hover:translate-x-1"

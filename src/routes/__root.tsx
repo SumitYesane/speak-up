@@ -10,6 +10,7 @@ import {
 import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { APP_EVENTS, logger } from "@/services/logger";
 
 function NotFoundComponent() {
   return (
@@ -33,7 +34,7 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  logger.error(APP_EVENTS.CLIENT_ERROR, { source: "system", error, metadata: { kind: "route" } });
   const router = useRouter();
 
   return (

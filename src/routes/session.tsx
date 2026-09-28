@@ -13,6 +13,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { useTimer } from "@/hooks/useTimer";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { api } from "@/services/api";
+import { APP_EVENTS, logger } from "@/services/logger";
 import { FOLLOW_UPS, OPENING_PROMPTS, SESSION_LENGTH_SECONDS } from "@/config/prompts";
 
 const searchSchema = z.object({
@@ -65,6 +66,15 @@ function SessionPage() {
       .then((current) => {
         setStartedAt(current.started_at);
         if (current.status === "COMPLETED") setFinished(true);
+        if (current.status === "ACTIVE" && current.started_at) {
+          const timerKey = `speakup.timer.started.${current.id}`;
+          const resumed = window.sessionStorage.getItem(timerKey) === "true";
+          window.sessionStorage.setItem(timerKey, "true");
+          logger.info(resumed ? APP_EVENTS.TIMER_RESUMED : APP_EVENTS.TIMER_STARTED, {
+            source: "timer",
+            sessionId: current.id,
+          });
+        }
       })
       .catch(() => undefined);
   }, [id, name, navigate]);
@@ -75,7 +85,8 @@ function SessionPage() {
     () => {
       if (!id || completing.current) return;
       completing.current = true;
-      void api.completeSession(id).then(() => setFinished(true));
+      logger.info(APP_EVENTS.TIMER_COMPLETED, { source: "timer", sessionId: id });
+      void api.completeSession(id, "timer").then(() => setFinished(true));
     },
     startedAt,
   );
@@ -90,7 +101,7 @@ function SessionPage() {
     completing.current = true;
     setEnding(true);
     void api
-      .completeSession(id)
+      .completeSession(id, "manual")
       .then(() =>
         navigate({
           to: "/feedback",

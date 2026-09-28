@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/Button";
@@ -8,6 +8,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ErrorState } from "@/components/ErrorState";
 import { AppBackground } from "@/components/AppBackground";
 import { api } from "@/services/api";
+import { APP_EVENTS, logger } from "@/services/logger";
 import type { PostSessionChallenge, PostSessionFeeling, RepeatIntention } from "@/types/feedback";
 
 const searchSchema = z.object({
@@ -70,6 +71,10 @@ function FeedbackPage() {
   const [sending, setSending] = useState(false);
   const [failed, setFailed] = useState(false);
 
+  useEffect(() => {
+    logger.info(APP_EVENTS.FEEDBACK_OPENED, { source: "ui", sessionId: id ?? null });
+  }, [id]);
+
   const canSend = feeling !== null && challenge !== null && repeat !== null;
   const answered = [feeling !== null, challenge !== null, repeat !== null].filter(Boolean).length;
 
@@ -108,7 +113,13 @@ function FeedbackPage() {
             <div className="card-elevated gradient-top mt-10 p-8">
               <ErrorState
                 message="Looks like your connection was interrupted."
-                onRetry={() => setFailed(false)}
+                onRetry={() => {
+                  logger.warn(APP_EVENTS.USER_RETRY_STARTED, {
+                    source: "ui",
+                    sessionId: id ?? null,
+                  });
+                  setFailed(false);
+                }}
               />
             </div>
           ) : (
