@@ -1,14 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, AnimatePresence } from "motion/react";
+// import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 import { ArrowRight, Sparkles, Globe2, ShieldCheck, Timer } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Logo } from "@/components/Logo";
 import { Reveal } from "@/components/Reveal";
 import { Aurora, GridField } from "@/components/Aurora";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+// import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { APP_EVENTS, logger } from "@/services/logger";
-
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  Mic,
+  PhoneOff,
+  Users,
+  MessageCircle,
+  BarChart3,
+} from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -329,114 +336,114 @@ function AvatarStack() {
   );
 }
 
-function HeroVisual() {
-  const reduced = useReducedMotion();
+// function HeroVisual() {
+//   const reduced = useReducedMotion();
 
-  return (
-    <div className="group relative mx-auto aspect-square w-full max-w-md">
-      <div className="absolute inset-6 rounded-full bg-brand opacity-[0.12] blur-3xl" />
+//   return (
+//     <div className="group relative mx-auto aspect-square w-full max-w-md">
+//       <div className="absolute inset-6 rounded-full bg-brand opacity-[0.12] blur-3xl" />
 
-      <svg viewBox="0 0 360 360" className="relative size-full" aria-hidden>
-        <defs>
-          <linearGradient id="convo" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.1" />
-            <stop offset="50%" stopColor="var(--color-violet)" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="var(--color-cyan)" stopOpacity="0.15" />
-          </linearGradient>
-          <radialGradient id="node" cx="50%" cy="35%">
-            <stop offset="0%" stopColor="var(--color-violet)" />
-            <stop offset="100%" stopColor="var(--color-primary)" />
-          </radialGradient>
-        </defs>
+//       <svg viewBox="0 0 360 360" className="relative size-full" aria-hidden>
+//         <defs>
+//           <linearGradient id="convo" x1="0" y1="0" x2="1" y2="0">
+//             <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.1" />
+//             <stop offset="50%" stopColor="var(--color-violet)" stopOpacity="0.95" />
+//             <stop offset="100%" stopColor="var(--color-cyan)" stopOpacity="0.15" />
+//           </linearGradient>
+//           <radialGradient id="node" cx="50%" cy="35%">
+//             <stop offset="0%" stopColor="var(--color-violet)" />
+//             <stop offset="100%" stopColor="var(--color-primary)" />
+//           </radialGradient>
+//         </defs>
 
-        {[0, 1, 2, 3].map((i) => (
-          <motion.circle
-            key={`ring${i}`}
-            cx="180"
-            cy="180"
-            r={58 + i * 26}
-            fill="none"
-            stroke="var(--color-primary)"
-            strokeOpacity={0.1}
-            strokeWidth="1"
-            animate={reduced ? {} : { r: [58 + i * 26, 64 + i * 26, 58 + i * 26] }}
-            transition={{
-              duration: 7 + i,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.5,
-            }}
-          />
-        ))}
+//         {[0, 1, 2, 3].map((i) => (
+//           <motion.circle
+//             key={`ring${i}`}
+//             cx="180"
+//             cy="180"
+//             r={58 + i * 26}
+//             fill="none"
+//             stroke="var(--color-primary)"
+//             strokeOpacity={0.1}
+//             strokeWidth="1"
+//             animate={reduced ? {} : { r: [58 + i * 26, 64 + i * 26, 58 + i * 26] }}
+//             transition={{
+//               duration: 7 + i,
+//               repeat: Infinity,
+//               ease: "easeInOut",
+//               delay: i * 0.5,
+//             }}
+//           />
+//         ))}
 
-        {[0, 1, 2].map((i) => (
-          <motion.path
-            key={i}
-            d={`M 66 180 C 130 ${128 - i * 24}, 230 ${232 + i * 24}, 294 180`}
-            stroke="url(#convo)"
-            strokeWidth="1.5"
-            fill="none"
-            strokeLinecap="round"
-            animate={reduced ? {} : { opacity: [0.25, 0.9, 0.25] }}
-            transition={{
-              duration: 6 + i * 1.4,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.8,
-            }}
-          />
-        ))}
+//         {[0, 1, 2].map((i) => (
+//           <motion.path
+//             key={i}
+//             d={`M 66 180 C 130 ${128 - i * 24}, 230 ${232 + i * 24}, 294 180`}
+//             stroke="url(#convo)"
+//             strokeWidth="1.5"
+//             fill="none"
+//             strokeLinecap="round"
+//             animate={reduced ? {} : { opacity: [0.25, 0.9, 0.25] }}
+//             transition={{
+//               duration: 6 + i * 1.4,
+//               repeat: Infinity,
+//               ease: "easeInOut",
+//               delay: i * 0.8,
+//             }}
+//           />
+//         ))}
 
-        {!reduced &&
-          [0, 1].map((i) => (
-            <circle key={`p${i}`} r="3.5" fill="var(--color-cyan)">
-              <animateMotion
-                dur="5s"
-                repeatCount="indefinite"
-                begin={`${i * 2.5}s`}
-                path={
-                  i === 0
-                    ? "M 66 180 C 130 128, 230 232, 294 180"
-                    : "M 294 180 C 230 232, 130 128, 66 180"
-                }
-              />
-            </circle>
-          ))}
+//         {!reduced &&
+//           [0, 1].map((i) => (
+//             <circle key={`p${i}`} r="3.5" fill="var(--color-cyan)">
+//               <animateMotion
+//                 dur="5s"
+//                 repeatCount="indefinite"
+//                 begin={`${i * 2.5}s`}
+//                 path={
+//                   i === 0
+//                     ? "M 66 180 C 130 128, 230 232, 294 180"
+//                     : "M 294 180 C 230 232, 130 128, 66 180"
+//                 }
+//               />
+//             </circle>
+//           ))}
 
-        <motion.circle
-          cx="66"
-          cy="180"
-          r="40"
-          fill="var(--color-primary)"
-          opacity="0.08"
-          animate={reduced ? {} : { r: [40, 48, 40] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.circle
-          cx="294"
-          cy="180"
-          r="40"
-          fill="var(--color-violet)"
-          opacity="0.08"
-          animate={reduced ? {} : { r: [40, 48, 40] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
-        <circle cx="66" cy="180" r="11" fill="url(#node)" />
-        <circle cx="294" cy="180" r="11" fill="url(#node)" opacity="0.7" />
-      </svg>
+//         <motion.circle
+//           cx="66"
+//           cy="180"
+//           r="40"
+//           fill="var(--color-primary)"
+//           opacity="0.08"
+//           animate={reduced ? {} : { r: [40, 48, 40] }}
+//           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+//         />
+//         <motion.circle
+//           cx="294"
+//           cy="180"
+//           r="40"
+//           fill="var(--color-violet)"
+//           opacity="0.08"
+//           animate={reduced ? {} : { r: [40, 48, 40] }}
+//           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+//         />
+//         <circle cx="66" cy="180" r="11" fill="url(#node)" />
+//         <circle cx="294" cy="180" r="11" fill="url(#node)" opacity="0.7" />
+//       </svg>
 
-      <div className="glass absolute top-6 left-0 rounded-full px-3.5 py-1.5 text-xs text-foreground shadow-lift animate-float-slow">
-        You
-      </div>
-      <div
-        className="glass absolute right-0 bottom-10 rounded-full px-3.5 py-1.5 text-xs text-foreground shadow-lift animate-float-slow"
-        style={{ animationDelay: "-4s" }}
-      >
-        A real conversation
-      </div>
-    </div>
-  );
-}
+//       <div className="glass absolute top-6 left-0 rounded-full px-3.5 py-1.5 text-xs text-foreground shadow-lift animate-float-slow">
+//         You
+//       </div>
+//       <div
+//         className="glass absolute right-0 bottom-10 rounded-full px-3.5 py-1.5 text-xs text-foreground shadow-lift animate-float-slow"
+//         style={{ animationDelay: "-4s" }}
+//       >
+//         A real conversation
+//       </div>
+//     </div>
+//   );
+// }
 
 /* --------------------------------------------------------------- marquee */
 
@@ -832,5 +839,800 @@ function Footer() {
         </p>
       </div>
     </footer>
+  );
+}
+
+
+
+
+function HeroVisual() {
+  const reduced = useReducedMotion();
+
+  const [seconds, setSeconds] = useState(8 * 60 + 42);
+  const [speaking, setSpeaking] = useState(true);
+  const [promptIndex, setPromptIndex] = useState(0);
+
+  const prompts = [
+    "How has your day been?",
+    "What are you working on?",
+    "Tell me something interesting.",
+  ];
+
+  const replies = [
+    "I've been working on something exciting today.",
+    "Actually, I've been learning a lot recently.",
+    "It feels good to finally practice this.",
+  ];
+
+  // Live timer
+  useEffect(() => {
+    if (reduced) return;
+
+    const timer = setInterval(() => {
+      setSeconds((value) => value + 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [reduced]);
+
+  // Alternate speaking / listening
+  useEffect(() => {
+    if (reduced) return;
+
+    const interval = setInterval(() => {
+      setSpeaking((value) => !value);
+    }, 3200);
+
+    return () => clearInterval(interval);
+  }, [reduced]);
+
+  // Change conversation text
+  useEffect(() => {
+    if (reduced) return;
+
+    const interval = setInterval(() => {
+      setPromptIndex((value) => (value + 1) % prompts.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [reduced]);
+
+  const minutes = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, "0");
+
+  const secs = (seconds % 60).toString().padStart(2, "0");
+
+  /*
+   * Small helper for naturally floating UI.
+   */
+  const floatAnimation = (delay = 0) =>
+    reduced
+      ? {}
+      : {
+          y: [0, -7, 0, 5, 0],
+          x: [0, 2, -2, 1, 0],
+        };
+
+  return (
+    <div className="group relative mx-auto aspect-square w-full max-w-xl overflow-hidden">
+
+      {/* =========================================================
+          AMBIENT BACKGROUND
+      ========================================================== */}
+
+      <motion.div
+        className="absolute inset-[12%] rounded-full bg-brand/[0.10] blur-[80px]"
+        animate={
+          reduced
+            ? {}
+            : {
+                scale: [1, 1.08, 1],
+                opacity: [0.5, 0.8, 0.5],
+              }
+        }
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute left-[10%] top-[18%] h-24 w-24 rounded-full bg-violet-400/[0.08] blur-3xl"
+        animate={
+          reduced
+            ? {}
+            : {
+                x: [0, 25, -10, 0],
+                y: [0, -15, 15, 0],
+              }
+        }
+        transition={{
+          duration: 9,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        className="absolute bottom-[15%] right-[8%] h-32 w-32 rounded-full bg-cyan-400/[0.08] blur-3xl"
+        animate={
+          reduced
+            ? {}
+            : {
+                x: [0, -20, 10, 0],
+                y: [0, 15, -10, 0],
+              }
+        }
+        transition={{
+          duration: 11,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* =========================================================
+          ORBIT / PARTICLES
+      ========================================================== */}
+
+      <svg
+        viewBox="0 0 600 600"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        aria-hidden
+      >
+        <defs>
+          <linearGradient id="speakupGradient" x1="0" x2="1">
+            <stop
+              offset="0%"
+              stopColor="var(--color-primary)"
+              stopOpacity="0.05"
+            />
+            <stop
+              offset="50%"
+              stopColor="var(--color-violet)"
+              stopOpacity="0.8"
+            />
+            <stop
+              offset="100%"
+              stopColor="var(--color-cyan)"
+              stopOpacity="0.08"
+            />
+          </linearGradient>
+
+          <radialGradient id="glow">
+            <stop
+              offset="0%"
+              stopColor="var(--color-violet)"
+              stopOpacity="0.7"
+            />
+            <stop
+              offset="100%"
+              stopColor="var(--color-violet)"
+              stopOpacity="0"
+            />
+          </radialGradient>
+        </defs>
+
+        {/* Soft orbit lines */}
+
+        {[0, 1, 2].map((i) => (
+          <motion.ellipse
+            key={`orbit-${i}`}
+            cx="300"
+            cy="300"
+            rx={210 + i * 25}
+            ry={135 + i * 28}
+            fill="none"
+            stroke="url(#speakupGradient)"
+            strokeWidth="1"
+            strokeDasharray={i === 1 ? "2 12" : "1 20"}
+            animate={
+              reduced
+                ? {}
+                : {
+                    rotate: i % 2 === 0 ? [0, 360] : [360, 0],
+                  }
+            }
+            transition={{
+              duration: 35 + i * 12,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            style={{
+              transformOrigin: "300px 300px",
+            }}
+          />
+        ))}
+
+        {/* Moving particles */}
+
+        {!reduced &&
+          Array.from({ length: 14 }).map((_, i) => (
+            <motion.circle
+              key={`particle-${i}`}
+              r={i % 4 === 0 ? 4 : 2.5}
+              fill={
+                i % 3 === 0
+                  ? "var(--color-cyan)"
+                  : "var(--color-violet)"
+              }
+              opacity={0.25 + (i % 3) * 0.15}
+              animate={{
+                cx: [
+                  90 + (i * 37) % 420,
+                  180 + (i * 61) % 280,
+                  420 - (i * 29) % 350,
+                  90 + (i * 37) % 420,
+                ],
+                cy: [
+                  110 + (i * 47) % 380,
+                  420 - (i * 31) % 300,
+                  140 + (i * 53) % 330,
+                  110 + (i * 47) % 380,
+                ],
+                opacity: [0.15, 0.7, 0.2, 0.15],
+                scale: [0.7, 1.25, 0.8, 0.7],
+              }}
+              transition={{
+                duration: 8 + (i % 5) * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.4,
+              }}
+            />
+          ))}
+      </svg>
+
+      {/* =========================================================
+          LIVE CONVERSATION BADGE
+      ========================================================== */}
+
+      <motion.div
+        className="absolute left-1/2 top-[5%] z-30 -translate-x-1/2"
+        animate={floatAnimation()}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="glass flex items-center gap-2 rounded-full border border-rose-300/20 px-4 py-2 shadow-xl backdrop-blur-xl">
+          <motion.span
+            className="h-2.5 w-2.5 rounded-full bg-rose-500"
+            animate={
+              reduced
+                ? {}
+                : {
+                    scale: [1, 1.5, 1],
+                    opacity: [1, 0.5, 1],
+                  }
+            }
+            transition={{
+              duration: 1.6,
+              repeat: Infinity,
+            }}
+          />
+
+          <span className="text-xs font-medium text-foreground">
+            Live conversation
+          </span>
+        </div>
+      </motion.div>
+
+      {/* =========================================================
+          LEFT PARTICIPANT — YOU
+      ========================================================== */}
+
+      <motion.div
+        className="absolute left-[5%] top-[32%] z-20"
+        animate={
+          reduced
+            ? {}
+            : {
+                y: [0, -5, 0, 4, 0],
+              }
+        }
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <motion.div
+          className="relative flex h-28 w-28 items-center justify-center rounded-full border border-blue-300/40 bg-gradient-to-br from-blue-300/30 via-blue-500/20 to-violet-500/20 shadow-[0_0_45px_rgba(99,102,241,0.20)] backdrop-blur-xl"
+          animate={
+            speaking && !reduced
+              ? {
+                  scale: [1, 1.035, 1],
+                  boxShadow: [
+                    "0 0 35px rgba(99,102,241,0.15)",
+                    "0 0 60px rgba(99,102,241,0.32)",
+                    "0 0 35px rgba(99,102,241,0.15)",
+                  ],
+                }
+              : {}
+          }
+          transition={{
+            duration: 1.4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          {/* Avatar */}
+          <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-violet-500 shadow-lg">
+            <div className="h-7 w-7 rounded-full bg-white/90" />
+
+            <div className="absolute bottom-2 h-5 w-10 rounded-t-full bg-white/80" />
+          </div>
+
+          {/* Mic */}
+          <div className="absolute -bottom-2 right-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-primary text-white shadow-lg">
+            <Mic className="h-4 w-4" />
+          </div>
+
+          {/* Speaking pulse */}
+          {speaking && !reduced && (
+            <>
+              <motion.div
+                className="absolute inset-0 rounded-full border border-blue-400/40"
+                animate={{
+                  scale: [1, 1.3, 1.5],
+                  opacity: [0.7, 0.25, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                }}
+              />
+
+              <motion.div
+                className="absolute inset-0 rounded-full border border-violet-400/30"
+                animate={{
+                  scale: [1, 1.5, 1.8],
+                  opacity: [0.4, 0.15, 0],
+                }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  delay: 0.5,
+                }}
+              />
+            </>
+          )}
+        </motion.div>
+
+        <div className="mt-4 text-center">
+          <div className="text-sm font-semibold text-foreground">
+            You
+          </div>
+
+          <motion.div
+            className="mt-2 inline-flex items-center gap-2 rounded-full bg-blue-500/10 px-3 py-1.5 text-xs text-blue-600 dark:text-blue-300"
+            animate={
+              reduced
+                ? {}
+                : {
+                    opacity: speaking ? [0.7, 1, 0.7] : 0.65,
+                  }
+            }
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+            }}
+          >
+            <motion.span
+              animate={
+                speaking && !reduced
+                  ? { scaleY: [0.5, 1.4, 0.7, 1.2, 0.5] }
+                  : {}
+              }
+              transition={{
+                duration: 0.7,
+                repeat: Infinity,
+              }}
+            >
+              <BarChart3 className="h-3.5 w-3.5" />
+            </motion.span>
+
+            {speaking ? "Speaking..." : "Listening..."}
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* =========================================================
+          RIGHT PARTICIPANT — PARTNER
+      ========================================================== */}
+
+      <motion.div
+        className="absolute right-[5%] top-[32%] z-20"
+        animate={
+          reduced
+            ? {}
+            : {
+                y: [0, 5, 0, -4, 0],
+              }
+        }
+        transition={{
+          duration: 5.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      >
+        <motion.div
+          className="relative flex h-28 w-28 items-center justify-center rounded-full border border-violet-300/40 bg-gradient-to-br from-violet-300/30 via-fuchsia-500/20 to-cyan-500/10 shadow-[0_0_45px_rgba(168,85,247,0.20)] backdrop-blur-xl"
+          animate={
+            !speaking && !reduced
+              ? {
+                  scale: [1, 1.035, 1],
+                  boxShadow: [
+                    "0 0 35px rgba(168,85,247,0.15)",
+                    "0 0 60px rgba(168,85,247,0.32)",
+                    "0 0 35px rgba(168,85,247,0.15)",
+                  ],
+                }
+              : {}
+          }
+          transition={{
+            duration: 1.4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet-400 to-fuchsia-500 shadow-lg">
+            <div className="h-7 w-7 rounded-full bg-white/90" />
+
+            <div className="absolute bottom-2 h-5 w-10 rounded-t-full bg-white/80" />
+          </div>
+
+          <div className="absolute -bottom-2 right-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-violet-500 text-white shadow-lg">
+            <Mic className="h-4 w-4" />
+          </div>
+
+          {!speaking && !reduced && (
+            <motion.div
+              className="absolute inset-0 rounded-full border border-violet-400/40"
+              animate={{
+                scale: [1, 1.3, 1.5],
+                opacity: [0.7, 0.25, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+              }}
+            />
+          )}
+        </motion.div>
+
+        <div className="mt-4 text-center">
+          <div className="text-sm font-semibold text-foreground">
+            Conversation Partner
+          </div>
+
+          <motion.div
+            className="mt-2 inline-flex items-center gap-2 rounded-full bg-violet-500/10 px-3 py-1.5 text-xs text-violet-600 dark:text-violet-300"
+          >
+            <MessageCircle className="h-3.5 w-3.5" />
+            {speaking ? "Listening..." : "Speaking..."}
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* =========================================================
+          CENTRAL LIVE WAVEFORM
+      ========================================================== */}
+
+      <div className="absolute left-1/2 top-[48%] z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-[4px]">
+        {Array.from({ length: 19 }).map((_, i) => {
+          const distance = Math.abs(9 - i);
+
+          return (
+            <motion.div
+              key={i}
+              className="w-[3px] rounded-full bg-gradient-to-b from-blue-400 via-violet-500 to-fuchsia-400"
+              animate={
+                reduced
+                  ? { height: 10 + (9 - distance) * 2 }
+                  : {
+                      height: speaking
+                        ? [
+                            10 + (9 - distance) * 2,
+                            18 + Math.random() * 34,
+                            8 + Math.random() * 20,
+                            24 + Math.random() * 30,
+                            10 + (9 - distance) * 2,
+                          ]
+                        : [
+                            7 + (9 - distance),
+                            12 + (9 - distance) * 1.5,
+                            7 + (9 - distance),
+                          ],
+                    }
+              }
+              transition={{
+                duration: 0.9 + (i % 5) * 0.12,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.045,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* =========================================================
+          CONVERSATION BUBBLE — LEFT
+      ========================================================== */}
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`prompt-${promptIndex}`}
+          className="absolute left-[0%] top-[15%] z-30"
+          initial={{ opacity: 0, y: 10, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+          transition={{ duration: 0.45 }}
+        >
+          <div className="glass max-w-[190px] rounded-2xl rounded-bl-md px-4 py-3 shadow-xl backdrop-blur-xl">
+            <div className="mb-2 flex items-center gap-1.5">
+              <MessageCircle className="h-3.5 w-3.5 text-primary" />
+
+              <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Conversation
+              </span>
+            </div>
+
+            <p className="text-xs font-medium leading-relaxed text-foreground">
+              {prompts[promptIndex]}
+            </p>
+
+            <div className="mt-2 flex gap-1">
+              {[0, 1, 2].map((i) => (
+                <motion.span
+                  key={i}
+                  className="h-1.5 w-1.5 rounded-full bg-primary/60"
+                  animate={
+                    reduced
+                      ? {}
+                      : {
+                          y: [0, -3, 0],
+                        }
+                  }
+                  transition={{
+                    duration: 0.8,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* =========================================================
+          CONVERSATION BUBBLE — RIGHT
+      ========================================================== */}
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`reply-${promptIndex}`}
+          className="absolute right-[0%] top-[18%] z-30"
+          initial={{ opacity: 0, y: 10, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.96 }}
+          transition={{ duration: 0.45, delay: 0.15 }}
+        >
+          <div className="glass max-w-[200px] rounded-2xl rounded-br-md px-4 py-3 shadow-xl backdrop-blur-xl">
+            <div className="flex items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-violet-500" />
+
+              <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                Response
+              </span>
+            </div>
+
+            <p className="mt-2 text-xs font-medium leading-relaxed text-foreground">
+              {replies[promptIndex]}
+            </p>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* =========================================================
+          FLOATING PRODUCT BENEFITS
+      ========================================================== */}
+
+      <motion.div
+        className="absolute left-[-2%] bottom-[25%] z-30 max-sm:hidden"
+        animate={floatAnimation()}
+        transition={{
+          duration: 7,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="glass flex items-center gap-2 rounded-xl px-3 py-2 shadow-lg backdrop-blur-xl">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10">
+            <MessageCircle className="h-3.5 w-3.5 text-primary" />
+          </div>
+
+          <div>
+            <div className="text-[10px] text-muted-foreground">
+              Practice
+            </div>
+            <div className="text-xs font-semibold">
+              Real conversation
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="absolute right-[-2%] bottom-[25%] z-30 max-sm:hidden"
+        animate={floatAnimation(-2)}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1,
+        }}
+      >
+        <div className="glass flex items-center gap-2 rounded-xl px-3 py-2 shadow-lg backdrop-blur-xl">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-500/10">
+            <Users className="h-3.5 w-3.5 text-violet-500" />
+          </div>
+
+          <div>
+            <div className="text-[10px] text-muted-foreground">
+              Experience
+            </div>
+            <div className="text-xs font-semibold">
+              Judgment-free
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* =========================================================
+          LIVE CALL CONTROL
+      ========================================================== */}
+
+      <motion.div
+        className="absolute bottom-[4%] left-1/2 z-40 -translate-x-1/2"
+        animate={
+          reduced
+            ? {}
+            : {
+                y: [0, -3, 0],
+              }
+        }
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="flex items-center gap-4 rounded-full border border-white/30 bg-white/75 px-5 py-3 shadow-2xl backdrop-blur-2xl dark:bg-slate-900/70">
+
+          {/* Mini waveform */}
+          <div className="flex h-7 items-center gap-[2px]">
+            {[4, 8, 14, 9, 18, 10, 5].map((height, i) => (
+              <motion.span
+                key={i}
+                className="w-[2px] rounded-full bg-violet-500"
+                animate={
+                  reduced
+                    ? { height }
+                    : {
+                        height: [height, height + 6, height - 2, height],
+                      }
+                }
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  delay: i * 0.08,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Timer */}
+          <motion.span
+            className="min-w-[54px] text-sm font-semibold tabular-nums text-foreground"
+            animate={
+              reduced
+                ? {}
+                : {
+                    opacity: [0.8, 1, 0.8],
+                  }
+            }
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+            }}
+          >
+            {minutes}:{secs}
+          </motion.span>
+
+          {/* Call button */}
+          <motion.button
+            type="button"
+            aria-label="End conversation"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-500 text-white shadow-lg shadow-rose-500/25"
+            whileHover={reduced ? {} : { scale: 1.08 }}
+            whileTap={reduced ? {} : { scale: 0.94 }}
+          >
+            <PhoneOff className="h-4 w-4" />
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* =========================================================
+          SMALL FLOATING STATUS
+      ========================================================== */}
+
+      <motion.div
+        className="absolute bottom-[8%] left-[12%] z-30 hidden sm:block"
+        animate={
+          reduced
+            ? {}
+            : {
+                rotate: [-2, 2, -2],
+              }
+        }
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="glass flex items-center gap-2 rounded-full px-3 py-1.5 shadow-lg">
+          <motion.span
+            className="h-1.5 w-1.5 rounded-full bg-emerald-500"
+            animate={
+              reduced
+                ? {}
+                : {
+                    scale: [1, 1.5, 1],
+                  }
+            }
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+            }}
+          />
+
+          <span className="text-[10px] font-medium text-muted-foreground">
+            Comfortable space
+          </span>
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="absolute right-[12%] bottom-[8%] z-30 hidden sm:block"
+        animate={
+          reduced
+            ? {}
+            : {
+                rotate: [2, -2, 2],
+              }
+        }
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="glass flex items-center gap-2 rounded-full px-3 py-1.5 shadow-lg">
+          <Sparkles className="h-3 w-3 text-amber-500" />
+
+          <span className="text-[10px] font-medium text-muted-foreground">
+            Build confidence
+          </span>
+        </div>
+      </motion.div>
+    </div>
   );
 }
