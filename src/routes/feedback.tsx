@@ -133,10 +133,10 @@ function FeedbackPage() {
               <div className="text-center">
                 <p className="text-eyebrow text-primary">After the conversation</p>
                 <h1 className="mt-3 text-[2rem] leading-tight tracking-[-0.03em] text-foreground">
-                  How did that feel?
+                  How did that feel for you?
                 </h1>
                 <p className="mt-3 text-sm text-muted-foreground">
-                  Take a second. There are no right answers.
+                  A quick reflection. No right answer, just what was true for you.
                 </p>
               </div>
 

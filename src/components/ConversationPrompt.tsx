@@ -24,47 +24,65 @@ export function ConversationPrompt({
   const reduced = useReducedMotion();
 
   return (
-    <div className={cn("flex flex-col gap-6", className)}>
-      <div>
-        {showLabel && (
-          <p className="text-eyebrow text-muted-foreground">Not sure what to say?</p>
-        )}
-        <div className={cn("min-h-[6.5rem]", showLabel && "mt-5")} aria-live="polite">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={prompt}
-              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduced ? { opacity: 0 } : { opacity: 0, y: -10 }}
-              transition={{ duration: reduced ? 0.15 : 0.34, ease: [0.22, 1, 0.36, 1] }}
+    <div
+      className={cn(
+        "relative w-full max-w-[26rem] rounded-[30px] border border-border/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(249,247,244,0.82))] p-5 shadow-[0_8px_28px_-18px_rgba(83,62,120,0.28)] backdrop-blur-xl sm:p-6",
+        className,
+      )}
+    >
+      <div className="absolute inset-x-7 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(122,116,255,0.75),transparent)]" />
+
+      <div className="flex flex-col gap-5">
+        <div>
+          {showLabel && (
+            <p className="text-eyebrow text-muted-foreground/90">Not sure what to say?</p>
+          )}
+          <div className={cn("min-h-[7rem]", showLabel && "mt-4")} aria-live="polite">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={prompt}
+                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -10 }}
+                transition={{ duration: reduced ? 0.15 : 0.34, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-[22px] border border-border/80 bg-white/55 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]"
+              >
+                <p className="text-[2rem] leading-[1.06] tracking-[-0.035em] text-foreground/95">
+                  {prompt}
+                </p>
+                <p className="mt-3 text-[0.97rem] leading-relaxed text-muted-foreground/90">
+                  {followUp}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={onAnother}
+            className="w-full justify-center rounded-2xl border border-border/80 bg-white/60 text-foreground shadow-[0_4px_12px_-8px_rgba(71,60,120,0.35)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/80"
+          >
+            <RefreshCw className="size-3.5" aria-hidden />
+            Another idea
+          </Button>
+
+          {onEndSession && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onEndSession}
+              loading={ending}
+              className="w-full justify-center rounded-xl px-2 text-muted-foreground/90 transition-colors hover:bg-destructive/8 hover:text-destructive sm:w-auto"
             >
-              <p className="text-[1.375rem] leading-snug tracking-[-0.02em] text-foreground">
-                {prompt}
-              </p>
-              <p className="mt-4 text-[0.9375rem] text-muted-foreground">{followUp}</p>
-            </motion.div>
-          </AnimatePresence>
+              <LogOut className="size-3.5" aria-hidden />
+              End session
+            </Button>
+          )}
         </div>
       </div>
-
-      <Button variant="secondary" size="sm" onClick={onAnother} className="self-start">
-        <RefreshCw className="size-3.5" aria-hidden />
-        Another idea
-      </Button>
-      {onEndSession && (
-        <div className="mt-1 border-t border-border/70 pt-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onEndSession}
-            loading={ending}
-            className="self-start px-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-          >
-            <LogOut className="size-3.5" aria-hidden />
-            End session
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

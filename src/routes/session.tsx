@@ -162,28 +162,30 @@ function SessionPage() {
         {finished ? (
           <PageTransition key="done" className="flex flex-1 items-center justify-center px-6 py-20">
             <div className="max-w-md text-center">
-              <ConnectionAnimation className="mx-auto" phase="connected" />
-              <h1 className="mt-12 text-[2rem] leading-tight tracking-[-0.03em] text-foreground">
-                Nice work.
-                <span className="block text-muted-foreground">
-                  You showed up and spoke.
-                </span>
-              </h1>
-              <p className="mt-4 text-[0.9375rem] text-muted-foreground">
-                Every conversation makes the next one a little easier.
-              </p>
-              <Button
-                size="lg"
-                className="mt-9"
-                onClick={() =>
-                  navigate({
-                    to: "/feedback",
-                    search: { id: id ?? "", name: name ?? "" },
-                  })
-                }
-              >
-                Give feedback
-              </Button>
+              <div className="card-elevated gradient-top p-7 sm:p-8">
+                <ConnectionAnimation className="mx-auto" phase="connected" />
+                <h1 className="mt-10 text-[2rem] leading-tight tracking-[-0.03em] text-foreground">
+                  Nice work.
+                  <span className="block text-muted-foreground">
+                    You showed up and spoke.
+                  </span>
+                </h1>
+                <p className="mt-4 text-[0.9375rem] text-muted-foreground">
+                  Every conversation makes the next one a little easier.
+                </p>
+                <Button
+                  size="lg"
+                  className="mt-9 w-full"
+                  onClick={() =>
+                    navigate({
+                      to: "/feedback",
+                      search: { id: id ?? "", name: name ?? "" },
+                    })
+                  }
+                >
+                  Give feedback
+                </Button>
+              </div>
             </div>
           </PageTransition>
         ) : (
@@ -196,7 +198,7 @@ function SessionPage() {
             className="grid flex-1 lg:grid-cols-[1.7fr_1fr]"
           >
             <section className="flex items-center justify-center px-6 pt-10 pb-32 lg:py-0">
-              <div className="w-full max-w-sm text-center">
+              <div className="card-elevated gradient-top w-full max-w-sm p-7 text-center sm:p-8">
                 <ConnectionAnimation
                   className="mx-auto"
                   phase="connected"
@@ -206,7 +208,7 @@ function SessionPage() {
                   Your conversation is open in another window.
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground/80">
-                  There's no right answer. Just keep the conversation going.
+                  There’s no right answer. Just keep it moving and speak naturally.
                 </p>
               </div>
             </section>

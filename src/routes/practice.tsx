@@ -358,42 +358,49 @@ function NameEntry({
   const valid = name.trim().length > 0;
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (valid) onSubmit();
-        else onInvalid();
-      }}
-    >
-      <h1 className="text-[2.25rem] leading-tight tracking-[-0.03em] text-foreground">
-        Let's get you ready.
-      </h1>
-      <p className="mt-3 text-[1.0625rem] text-muted-foreground">What should we call you?</p>
-
-      <div className="mt-10">
-        <label htmlFor="name" className="sr-only">
-          Your name
-        </label>
-        <input
-          id="name"
-          autoFocus
-          autoComplete="given-name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
-          className="h-14 w-full rounded-[10px] border border-border bg-surface px-4 text-[1.0625rem] text-foreground placeholder:text-muted-foreground/70 transition-all duration-200 outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10"
-        />
-        <p className="mt-3 text-sm text-muted-foreground">That's all we need to get started.</p>
+    <div className="card-elevated gradient-top p-7 sm:p-8">
+      <div className="text-center">
+        <p className="text-eyebrow text-primary">Ready when you are</p>
+        <h1 className="mt-3 text-[2.1rem] leading-tight tracking-[-0.03em] text-foreground">
+          Let’s make this easy.
+        </h1>
       </div>
 
-      <Button type="submit" size="lg" className="group mt-8 w-full" disabled={!valid}>
-        Continue
-        <ArrowRight
-          className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
-          aria-hidden
-        />
-      </Button>
-    </form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (valid) onSubmit();
+          else onInvalid();
+        }}
+        className="mt-8"
+      >
+        <div>
+          <label htmlFor="name" className="mb-2 block text-[0.9375rem] text-foreground">
+            What should we call you?
+          </label>
+          <input
+            id="name"
+            autoFocus
+            autoComplete="given-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            className="h-14 w-full rounded-[14px] border border-border bg-surface px-4 text-[1.0625rem] text-foreground placeholder:text-muted-foreground/70 transition-all duration-200 outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10"
+          />
+          <p className="mt-3 text-sm text-muted-foreground">
+            That’s all we need before we find your conversation.
+          </p>
+        </div>
+
+        <Button type="submit" size="lg" className="group mt-8 w-full" disabled={!valid}>
+          Continue
+          <ArrowRight
+            className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+            aria-hidden
+          />
+        </Button>
+      </form>
+    </div>
   );
 }
 
@@ -402,31 +409,33 @@ function Connecting({ status }: { status: Session["status"] }) {
 
   return (
     <div className="text-center" aria-live="polite">
-      <ConnectionAnimation
-        className="mx-auto"
-        phase={searching ? "searching" : "idle"}
-        labels={["You", searching ? "Searching" : ""]}
-      />
+      <div className="card-elevated gradient-top p-7 sm:p-8">
+        <ConnectionAnimation
+          className="mx-auto"
+          phase={searching ? "searching" : "idle"}
+          labels={["You", searching ? "Looking" : "Waiting"]}
+        />
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={searching ? "searching" : "preparing"}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-12"
-        >
-          <h1 className="text-[1.75rem] leading-tight tracking-[-0.025em] text-foreground">
-            {searching ? "Finding your conversation..." : "Getting things ready."}
-          </h1>
-          <p className="mt-3 text-[0.9375rem] text-muted-foreground">
-            {searching
-              ? "Looking for someone who's ready to talk."
-              : "You won't need to prepare anything."}
-          </p>
-        </motion.div>
-      </AnimatePresence>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={searching ? "searching" : "preparing"}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10"
+          >
+            <h1 className="text-[1.8rem] leading-tight tracking-[-0.025em] text-foreground">
+              {searching ? "Finding your conversation..." : "Getting things ready."}
+            </h1>
+            <p className="mt-3 text-[0.9375rem] text-muted-foreground">
+              {searching
+                ? "A calm conversation is being matched for you."
+                : "No prep, no pressure. We’ll take it from here."}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
@@ -440,32 +449,32 @@ function ReadyState({ onJoin, joining }: { onJoin: () => void; joining: boolean 
   });
 
   return (
-    <div className="text-center">
+    <div className="card-elevated gradient-top p-7 text-center sm:p-8">
       <ConnectionAnimation className="mx-auto" phase="connected" labels={["You", "Them"]} />
 
-      <motion.div {...step(0.25)} className="mt-10 flex justify-center">
-        <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1.5 text-xs font-medium text-success">
+      <motion.div {...step(0.2)} className="mt-9 flex justify-center">
+        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-700">
           <Check className="size-3.5" aria-hidden />
-          Connected
+          Conversation ready
         </span>
       </motion.div>
 
       <motion.h1
-        {...step(0.45)}
-        className="mt-6 text-[1.875rem] leading-tight tracking-[-0.028em] text-foreground"
+        {...step(0.35)}
+        className="mt-6 text-[1.9rem] leading-tight tracking-[-0.028em] text-foreground"
       >
-        Your conversation is ready.
+        Someone is ready to talk.
       </motion.h1>
 
-      <motion.p {...step(0.65)} className="mt-3 text-[0.9375rem] text-muted-foreground">
-        You don't need to prepare anything. Just join and start talking.
+      <motion.p {...step(0.5)} className="mt-3 text-[0.9375rem] text-muted-foreground">
+        Nothing to prepare. Just join, settle in, and start speaking naturally.
       </motion.p>
 
-      <motion.div {...step(0.85)} className="mt-9">
+      <motion.div {...step(0.7)} className="mt-9">
         <Button size="lg" className="w-full" onClick={onJoin} loading={joining}>
-          Join Session
+          I’m ready
         </Button>
-        <p className="mt-4 text-sm text-muted-foreground">10 minutes · One conversation</p>
+        <p className="mt-4 text-sm text-muted-foreground">10 minutes · One real conversation</p>
       </motion.div>
     </div>
   );
